@@ -1,9 +1,11 @@
+VER  = 0.0.0-alpha.0
 LEX  = lex
 YACC = yacc
 CC   = cc
 
 OBJ = properties-lexer.o
 
+CFLAGS = -DVERSION=${VER}
 LFLAGS = -ll
 
 
@@ -13,7 +15,7 @@ all: properties
 properties-lexer.o: properties.l
 	${LEX} properties.l
 	@mv lex.yy.c properties-lexer.c
-	${CC} -c properties-lexer.c
+	${CC} ${CFLAGS} -c properties-lexer.c
 
 properties: ${OBJ}
 	${CC} ${OBJ} -o $@ ${LFLAGS}
