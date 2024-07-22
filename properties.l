@@ -1,9 +1,5 @@
 %{
-enum {
-	KEY = 1,
-	DIV,
-	VALUE
-};
+#include "properties-parser.h"
 %}
 
 %%

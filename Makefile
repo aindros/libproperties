@@ -3,10 +3,10 @@ LEX  = lex
 YACC = yacc
 CC   = cc
 
-OBJ = properties-lexer.o
+OBJ = properties-parser.o properties-lexer.o
 
 CFLAGS = -DVERSION=${VER}
-LFLAGS = -ll
+LFLAGS = -ll -ly
 
 
 all: properties
@@ -17,6 +17,12 @@ properties-lexer.o: properties.l
 	@mv lex.yy.c properties-lexer.c
 	${CC} ${CFLAGS} -c properties-lexer.c
 
+properties-parser.o properties-parser.h: properties.y
+	${YACC} -d properties.y
+	@mv y.tab.c properties-parser.c
+	@mv y.tab.h properties-parser.h
+	${CC} ${CFLAGS} -c properties-parser.c
+
 properties: ${OBJ}
 	${CC} ${OBJ} -o $@ ${LFLAGS}
 
@@ -24,3 +30,4 @@ clean:
 	@rm -f ${OBJ} *.core a.out
 	@rm -f properties-lexer.c lex.*
 	@rm -f properties
+	@rm -f properties-parser.* y.*
