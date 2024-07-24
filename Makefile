@@ -3,7 +3,7 @@ LEX  = lex
 YACC = yacc
 CC   = cc
 
-OBJ = properties-parser.o properties-lexer.o
+OBJ = utils/string.o properties-parser.o properties-lexer.o
 
 CFLAGS = -DVERSION=${VER}
 LFLAGS = -ll -ly
@@ -22,6 +22,9 @@ properties-parser.o properties-parser.h: properties.y
 	@mv y.tab.c properties-parser.c
 	@mv y.tab.h properties-parser.h
 	${CC} ${CFLAGS} -c properties-parser.c
+
+utils/string.o: utils/string.c
+	${CC} ${CFLAGS} -c $< -o $@
 
 properties: ${OBJ}
 	${CC} ${OBJ} -o $@ ${LFLAGS}
