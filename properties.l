@@ -5,8 +5,8 @@
 %%
 
 =|:                    return DIV;
-^[ \t]*[a-zA-Z0-9\.]*  return KEY;
+^[ \t]*[a-zA-Z0-9\.]*  yylval.value = strdup(yytext); return KEY;
 [ \t]*                 ;
-.                      return VALUE;
+.                      yylval.value = strdup(yytext); return VALUE;
 
 %%
