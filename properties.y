@@ -15,6 +15,18 @@
 
 %%
 
+properties: property
+	| properties property
+	;
+
+property: KEY DIV value {
+			printf("<%s> ---> <%s>\n", $1.value, $3.value);
+		}
+	| KEY DIV {
+			printf("<%s> ---> NO VALUE\n", $1.value);
+		}
+	;
+
 value: VALUE {
 			$$.value = calloc(2, sizeof(char));
 			strcat($$.value, $1.value);
