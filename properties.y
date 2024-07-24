@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include "utils/string.h"
 
 %}
 
@@ -20,7 +20,7 @@ properties: property
 	;
 
 property: KEY DIV value {
-			printf("<%s> ---> <%s>\n", $1.value, $3.value);
+			printf("<%s> ---> <%s>\n", $1.value, trim($3.value));
 		}
 	| KEY DIV {
 			printf("<%s> ---> NO VALUE\n", $1.value);
