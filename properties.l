@@ -6,7 +6,7 @@
 
 =|:                    return DIV;
 ^[ \t]*[a-zA-Z0-9\.]*  yylval.value = strdup(yytext); return KEY;
-\n                     ;
+\n                     ; /* Ignores empty lines with a single newline */
 .                      yylval.value = strdup(yytext); return VALUE;
 ^[ \t]*/\r?\n          ;	/* /\r?\n get the end of line, ref: https://stackoverflow.com/a/56104754 */
 
