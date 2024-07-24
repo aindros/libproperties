@@ -1,4 +1,4 @@
-VER  = 0.0.0-alpha.0
+VER  = 0.0.0-alpha.1
 LEX  = lex
 YACC = yacc
 CC   = cc
