@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void properties_load(FILE *file);
+#include "../properties.h"
 
 int
 main(int argc, char **argv)
