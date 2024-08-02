@@ -46,6 +46,11 @@ extern FILE *yyin;
 void
 properties_load(FILE *file)
 {
+	if (file == NULL) {
+		fprintf(stderr, "No file to read.\n");
+		exit(1);
+	}
+
 	yyin = file;
 
 	do {
