@@ -1,32 +1,37 @@
-VER  = 0.0.0-alpha.1
-LEX  = lex
-YACC = yacc
-CC   = cc
+include config.mk
 
 OBJ = utils/string.o properties-parser.o properties-lexer.o
 
-CFLAGS = -DVERSION=${VER}
-LFLAGS = -ll -ly
+CFLAGS  = -DVERSION=${VER}
+LFLAGS  = -ll -ly
 
 
-all: properties
-#	${CC} properties-lexer.c properties-parser.c -o properties -ll -ly
+all: lib${NAME}.a lib${NAME}.so
 
-properties-lexer.o: properties.l
+# Generate the lexer source
+properties-lexer.c: properties.l
 	${LEX} properties.l
 	@mv lex.yy.c properties-lexer.c
-	${CC} ${CFLAGS} -c properties-lexer.c
 
-properties-parser.o properties-parser.h: properties.y
+# Generate the parser source
+properties-parser.h properties-parser.c: properties.y
 	${YACC} -d properties.y
 	@mv y.tab.c properties-parser.c
 	@mv y.tab.h properties-parser.h
-	${CC} ${CFLAGS} -c properties-parser.c
 
-utils/string.o: utils/string.c
+.c.o:
 	${CC} ${CFLAGS} -c $< -o $@
 
-properties: ${OBJ}
+build_static:
+	@make clean ${OBJ}
+
+build_shared:
+	@make CFLAGS="${CFLAGS} -fPIC" clean ${OBJ}
+
+lib${NAME}.a: build_static
+	${CC} ${OBJ} -o $@ ${LFLAGS}
+
+lib${NAME}.so: build_shared
 	${CC} ${OBJ} -o $@ ${LFLAGS}
 
 clean:
