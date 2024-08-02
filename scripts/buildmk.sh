@@ -20,7 +20,8 @@ STATIC_OBJ =$OBJA
 SHARED_OBJ =$OBJSO
 
 CFLAGS  = -DVERSION=${VER}
-LFLAGS  = -ll -ly
+#LFLAGS  = -ll -ly
+LFLAGS  = -l:libl.a -l:liby.a
 
 all: lib\${NAME}.a lib\${NAME}.so
 
@@ -36,7 +37,9 @@ properties-parser.h properties-parser.c: properties.y
 	@mv y.tab.h properties-parser.h
 
 lib\${NAME}.a: \${STATIC_OBJ}
-	\${CC} \${STATIC_OBJ} -o \$@ \${LFLAGS}
+	mkdir ext
+	cd ext && ar -x /usr/lib/liby.a && ar -x /usr/lib/libl.a
+	ar rcs \$@ \${STATIC_OBJ} ext/*
 
 lib\${NAME}.so: \${SHARED_OBJ}
 	\${CC} \${SHARED_OBJ} -o \$@ \${LFLAGS}

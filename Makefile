@@ -5,7 +5,8 @@ STATIC_OBJ = build/static/utils/string.o build/static/properties-parser.o build/
 SHARED_OBJ = build/shared/utils/string.o build/shared/properties-parser.o build/shared/properties-lexer.o
 
 CFLAGS  = -DVERSION=
-LFLAGS  = -ll -ly
+#LFLAGS  = -ll -ly
+LFLAGS  = -l:libl.a -l:liby.a
 
 all: lib${NAME}.a lib${NAME}.so
 
@@ -21,7 +22,9 @@ properties-parser.h properties-parser.c: properties.y
 	@mv y.tab.h properties-parser.h
 
 lib${NAME}.a: ${STATIC_OBJ}
-	${CC} ${STATIC_OBJ} -o $@ ${LFLAGS}
+	mkdir ext
+	cd ext && ar -x /usr/lib/liby.a && ar -x /usr/lib/libl.a
+	ar rcs $@ ${STATIC_OBJ} ext/*
 
 lib${NAME}.so: ${SHARED_OBJ}
 	${CC} ${SHARED_OBJ} -o $@ ${LFLAGS}
