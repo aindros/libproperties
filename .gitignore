@@ -7,3 +7,4 @@ y.*
 *-parser.*
 *.a
 *.so
+test/test

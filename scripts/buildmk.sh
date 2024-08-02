@@ -8,7 +8,7 @@ gen_obj()
 	done
 }
 
-SRC="$(find * -name '*.c') properties-parser.c properties-lexer.c"
+SRC="utils/string.c properties-parser.c properties-lexer.c"
 OBJA=$(gen_obj build/static/)
 OBJSO=$(gen_obj build/shared/)
 
