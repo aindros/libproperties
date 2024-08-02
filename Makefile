@@ -22,7 +22,7 @@ properties-parser.h properties-parser.c: properties.y
 	@mv y.tab.h properties-parser.h
 
 lib${NAME}.a: ${STATIC_OBJ}
-	mkdir ext
+	mkdir -p ext
 	cd ext && ar -x /usr/lib/liby.a && ar -x /usr/lib/libl.a
 	ar rcs $@ ${STATIC_OBJ} ext/*
 
@@ -30,7 +30,7 @@ lib${NAME}.so: ${SHARED_OBJ}
 	${CC} ${SHARED_OBJ} -o $@ ${LFLAGS}
 
 clean:
-	@rm -rf build
+	@rm -rf build ext
 	@rm -f properties-lexer.c lex.*
 	@rm -f properties-parser.* y.*
 
