@@ -43,14 +43,14 @@ value: VALUE {
 
 extern FILE *yyin;
 
-int
-main(void)
+void
+properties_load(FILE *file)
 {
+	yyin = file;
+
 	do {
 		yyparse();
 	} while(!feof(yyin));
-
-	return EXIT_SUCCESS;
 }
 
 void
