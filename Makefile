@@ -1,10 +1,11 @@
 include config.mk
 
-OBJ = utils/string.o properties-parser.o properties-lexer.o
+SRC = utils/string.c properties-parser.c properties-lexer.c
+STATIC_OBJ = build/static/utils/string.o build/static/properties-parser.o build/static/properties-lexer.o
+SHARED_OBJ = build/shared/utils/string.o build/shared/properties-parser.o build/shared/properties-lexer.o
 
-CFLAGS  = -DVERSION=${VER}
+CFLAGS  = -DVERSION=
 LFLAGS  = -ll -ly
-
 
 all: lib${NAME}.a lib${NAME}.so
 
@@ -19,23 +20,38 @@ properties-parser.h properties-parser.c: properties.y
 	@mv y.tab.c properties-parser.c
 	@mv y.tab.h properties-parser.h
 
-.c.o:
-	${CC} ${CFLAGS} -c $< -o $@
+lib${NAME}.a: ${STATIC_OBJ}
+	${CC} ${STATIC_OBJ} -o $@ ${LFLAGS}
 
-build_static:
-	@make clean ${OBJ}
-
-build_shared:
-	@make CFLAGS="${CFLAGS} -fPIC" clean ${OBJ}
-
-lib${NAME}.a: build_static
-	${CC} ${OBJ} -o $@ ${LFLAGS}
-
-lib${NAME}.so: build_shared
-	${CC} ${OBJ} -o $@ ${LFLAGS}
+lib${NAME}.so: ${SHARED_OBJ}
+	${CC} ${SHARED_OBJ} -o $@ ${LFLAGS}
 
 clean:
-	@rm -f ${OBJ} *.core a.out
+	@rm -rf build
 	@rm -f properties-lexer.c lex.*
-	@rm -f properties
 	@rm -f properties-parser.* y.*
+
+build/static/utils/string.o: utils/string.c
+	@mkdir -p build/static/utils
+	${CC} ${CFLAGS} -c utils/string.c -o $@
+
+build/static/properties-parser.o: properties-parser.c
+	@mkdir -p build/static
+	${CC} ${CFLAGS} -c properties-parser.c -o $@
+
+build/static/properties-lexer.o: properties-lexer.c
+	@mkdir -p build/static
+	${CC} ${CFLAGS} -c properties-lexer.c -o $@
+
+build/shared/utils/string.o: utils/string.c
+	@mkdir -p build/shared/utils
+	${CC} ${CFLAGS} -fPIC -c utils/string.c -o $@
+
+build/shared/properties-parser.o: properties-parser.c
+	@mkdir -p build/shared
+	${CC} ${CFLAGS} -fPIC -c properties-parser.c -o $@
+
+build/shared/properties-lexer.o: properties-lexer.c
+	@mkdir -p build/shared
+	${CC} ${CFLAGS} -fPIC -c properties-lexer.c -o $@
+
