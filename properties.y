@@ -36,7 +36,16 @@ property: KEY DIV value {
 		}
 	;
 
-value: VALUE {
+value: DIV {
+			$$.value = cpyval(2, sizeof(char), $1.value);
+		}
+	| value DIV {
+			char *s = strdup($$.value);
+			$$.value = calloc(strlen(s) + strlen($2.value) + 1, sizeof(char));
+			strcat($$.value, s);
+			strcat($$.value, $2.value);
+		}
+	| VALUE {
 			$$.value = cpyval(2, sizeof(char), $1.value);
 		}
 	| value VALUE {

@@ -5,7 +5,7 @@
 
 %%
 
-=|:                           return DIV;
+=|:                           yylval.value = strdup(yytext); return DIV;
 ^[ \t]*[a-zA-Z0-9\.]*[ \t]*   yylval.value = strdup(trim(yytext)); return KEY;
 \n                            ; /* Ignores empty lines with a single newline */
 ^[ \t]*#.*                    ; /* Ignores comments */
