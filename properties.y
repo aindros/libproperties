@@ -4,6 +4,15 @@
 #include <stdlib.h>
 #include "utils/string.h"
 
+char *
+cpyval(size_t number,
+       size_t size,
+       char *value)
+{
+	char *dest = calloc(number, size);
+	return strcat(dest, value);
+}
+
 %}
 
 %token KEY DIV VALUE
@@ -28,8 +37,7 @@ property: KEY DIV value {
 	;
 
 value: VALUE {
-			$$.value = calloc(2, sizeof(char));
-			strcat($$.value, $1.value);
+			$$.value = cpyval(2, sizeof(char), $1.value);
 		}
 	| value VALUE {
 			char *s = strdup($$.value);
