@@ -44,3 +44,8 @@ path=c:\\docs\\doc1
 
 * UNICODE characters can be entered as they are in a Java program, using the
 `\u` prefix. For example, `\u002c`.
+
+## TODOs
+* Able to write comments with `!` symbol.
+* Multiline values.
+* `\u` prefix.
