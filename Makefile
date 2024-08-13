@@ -4,7 +4,7 @@ SRC = utils/string.c properties-parser.c properties-lexer.c
 STATIC_OBJ = build/static/utils/string.o build/static/properties-parser.o build/static/properties-lexer.o
 SHARED_OBJ = build/shared/utils/string.o build/shared/properties-parser.o build/shared/properties-lexer.o
 
-CFLAGS  = -DVERSION=
+CFLAGS  = -DVERSION=${VER}
 #LFLAGS  = -ll -ly
 LFLAGS  = -l:libl.a -l:liby.a
 
